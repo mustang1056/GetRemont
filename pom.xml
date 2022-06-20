@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.3.4.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.remont</groupId>
+	<artifactId>getremont</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>getremont</name>
+	<description>getremont back-end</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>1.18.10</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.zalando</groupId>
+			<artifactId>logbook-spring-boot-starter</artifactId>
+			<version>1.5.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>2.3.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.junit.vintage</groupId>
+					<artifactId>junit-vintage-engine</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+
+
+			<plugin>
+				<groupId>io.fabric8</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.33.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>docker-build</id>
+						<phase>package</phase>
+						<goals>
+							<goal>build</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>prepare-database</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>start</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>remove-database</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<images>
+						<image>
+							<name>mysql</name>
+							<alias>database</alias>
+							<run>
+								<log>
+									<prefix>mysql > </prefix>
+									<enabled>true</enabled>
+									<color>green</color>
+								</log>
+								<env>
+									<MYSQL_ROOT_PASSWORD>ghjnjnbg</MYSQL_ROOT_PASSWORD>
+									<MYSQL_DATABASE>getremont</MYSQL_DATABASE>
+									<MYSQL_PASSWORD>ghjnjnbg</MYSQL_PASSWORD>
+								</env>
+								<ports>
+									<port>3306:3306</port>
+								</ports>
+								<wait>
+									<log>(?s)ready for connections</log>
+									<time>30000</time>
+								</wait>
+							</run>
+						</image>
+						<image>
+							<alias>service</alias>
+							<name>service</name>
+							<build>
+								<from>java:8-jre</from>
+								<cmd>
+									<shell>java -jar /maven/mysql-producer-consumer-1.0-SNAPSHOT.jar</shell>
+								</cmd>
+								<assembly>
+									<descriptorRef>artifact-with-dependencies</descriptorRef>
+								</assembly>
+							</build>
+							<run>
+								<log>
+									<prefix>service > </prefix>
+									<enabled>true</enabled>
+									<color>black</color>
+								</log>
+								<network>
+									<mode>container</mode>
+									<name>mysql</name>
+									<alias>mysql</alias>
+								</network>
+								<wait>
+									<shutdown>500</shutdown>
+									<time>20000</time>
+								</wait>
+								<dependsOn>
+									<container>mysql</container>
+								</dependsOn>
+							</run>
+						</image>
+					</images>
+				</configuration>
+			</plugin>
+		</plugins>
+
+
+
+
+	</build>
+
+
+
+</project>

@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public interface RemontService {
 
-
     RemontEntity addRemont(Remont bank);
 
     void delete(long id);

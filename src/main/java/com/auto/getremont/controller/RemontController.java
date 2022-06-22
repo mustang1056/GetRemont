@@ -24,13 +24,9 @@ public class RemontController {
     // Получить все записи
     @GetMapping("/remont")
     public Page<Remont> search(@RequestParam(name = "page") int pageNumber) {
-
         int pageSize = 10;
-
-
         Pageable pageable = PageRequest.of(pageNumber, pageSize, Sort.by("id").descending());
         Page<Remont> remonts = remontService.getRemonts(pageable);
-
 
         return remonts;
     }

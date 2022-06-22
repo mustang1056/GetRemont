@@ -21,19 +21,14 @@ public class RemontEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @NotBlank
     private String malfunction;
-
     @NotBlank
     private String car_brand;
-
     @NotBlank
     private String car_model;
-
     @NotNull
     private int car_year;
-
     @NotBlank
     private String price;
 
@@ -47,7 +42,6 @@ public class RemontEntity {
     @JsonIgnoreProperties(value = {"applications", "hibernateLazyInitializer"})
     @JoinColumn(name = "user_id")
     private UserEntity user;
-
 
     public RemontEntity(){
         super();

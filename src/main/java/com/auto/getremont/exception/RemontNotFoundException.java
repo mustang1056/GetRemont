@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 public class RemontNotFoundException extends RuntimeException {
 
-
     public RemontNotFoundException( Long id) {
         super(String.format("%s not found with %s : '%s'", id));
     }

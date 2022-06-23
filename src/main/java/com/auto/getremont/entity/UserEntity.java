@@ -21,15 +21,18 @@ public class UserEntity {
 
     @NotBlank
     private String name;
-
     @NotBlank
     private String login;
-
     @NotBlank
-    private String pswd;
-
+    private char[] pswd;
     @NotBlank
     private String image;
+
+    @NotBlank
+    private String email;
+
+    @NotBlank
+    private String token;
 
 
     public String getImage() {
@@ -52,11 +55,11 @@ public class UserEntity {
         this.login = login;
     }
 
-    public String getPswd() {
+    public char[] getPswd() {
         return pswd;
     }
 
-    public void setPswd(String pswd) {
+    public void setPswd(char[] pswd) {
         this.pswd = pswd;
     }
 

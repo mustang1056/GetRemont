@@ -35,7 +35,6 @@ public class RemontEntity {
     @DateTimeFormat(pattern="dd-MM-yyyy hh:mm:ss")
     private Date created = new Date();
 
-
     @Getter
     @Setter
     @ManyToOne(fetch=FetchType.LAZY, cascade={ CascadeType.PERSIST, CascadeType.MERGE })

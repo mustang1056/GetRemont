@@ -9,14 +9,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.Optional;
 
 
 @Getter
 @Setter
 @Entity(name = "remont")
 @Table(name = "remont")
-public class RemontEntity {
+public class RepairEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,7 +41,7 @@ public class RemontEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    public RemontEntity(){
+    public RepairEntity(){
         super();
     }
 

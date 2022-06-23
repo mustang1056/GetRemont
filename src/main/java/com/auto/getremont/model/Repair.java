@@ -1,13 +1,11 @@
 package com.auto.getremont.model;
 
-import com.auto.getremont.entity.RemontEntity;
 import lombok.*;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Data
-public class Remont {
+public class Repair {
 
     //private Long id;
 

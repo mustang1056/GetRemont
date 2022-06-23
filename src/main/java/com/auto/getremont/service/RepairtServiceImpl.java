@@ -1,32 +1,26 @@
 package com.auto.getremont.service;
 
-import com.auto.getremont.config.MapperUtil;
-import com.auto.getremont.entity.RemontEntity;
+import com.auto.getremont.entity.RepairEntity;
 import com.auto.getremont.entity.UserEntity;
-import com.auto.getremont.model.Remont;
+import com.auto.getremont.model.Repair;
 import com.auto.getremont.model.User;
-import com.auto.getremont.repository.RemontRepository;
+import com.auto.getremont.repository.RepairRepository;
 import com.auto.getremont.repository.UserRepository;
-import net.bytebuddy.description.method.MethodDescription;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import org.springframework.data.domain.Sort;
 
 
 @Component
-public class RemontServiceImpl implements RemontService {
+public class RepairtServiceImpl implements RepairService {
 
     @Autowired
-    private RemontRepository remontRepository;
+    private RepairRepository remontRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -34,14 +28,14 @@ public class RemontServiceImpl implements RemontService {
 
 
     @Override
-    public RemontEntity addRemont(Remont bank) {
+    public RepairEntity addRemont(Repair remont) {
 
-        Long id = bank.getUser_id();
+        Long id = remont.getUser_id();
         UserEntity user = userRepository.findById(id).orElse(new UserEntity());
-        RemontEntity rem = convertToRemontEntity(bank);
+        RepairEntity rem = convertToRemontEntity(remont);
         rem.setUser(user);
 
-        RemontEntity savedRemont = remontRepository.save(rem);
+        RepairEntity savedRemont = remontRepository.save(rem);
 
         return savedRemont;
     }
@@ -52,23 +46,23 @@ public class RemontServiceImpl implements RemontService {
     }
 
     @Override
-    public Optional<RemontEntity> getById(Long id) {
+    public Optional<RepairEntity> getById(Long id) {
         return remontRepository.findById(id);
     }
 
     @Override
-    public RemontEntity editRemont(RemontEntity bank) {
+    public RepairEntity editRemont(RepairEntity bank) {
         return remontRepository.save(bank);
     }
 
     @Override
-    public Page<Remont> getRemonts(Pageable pageble) {
-        Page<RemontEntity> posts = (Page<RemontEntity>) remontRepository.findAll(pageble);
-        return posts.map(new Function<RemontEntity, Remont>() {
+    public Page<Repair> getRemonts(Pageable pageble) {
+        Page<RepairEntity> posts = (Page<RepairEntity>) remontRepository.findAll(pageble);
+        return posts.map(new Function<RepairEntity, Repair>() {
 
             @Override
-            public Remont apply(RemontEntity t) {
-                return new ModelMapper().map(t, Remont.class);
+            public Repair apply(RepairEntity t) {
+                return new ModelMapper().map(t, Repair.class);
             }
 
         });
@@ -77,15 +71,15 @@ public class RemontServiceImpl implements RemontService {
 
 
     @Override
-    public Remont convertToRemontDto(RemontEntity remont) {
-        Remont postDto = modelMapper.map(remont, Remont.class);
+    public Repair convertToRemontDto(RepairEntity remont) {
+        Repair postDto = modelMapper.map(remont, Repair.class);
         postDto.setCar_model(remont.getCar_model());
         postDto.setUser_id(remont.getUserId());
         return postDto;
     }
 
-    private Remont convertToObjectDto(Object o) {
-        Remont dto = new Remont();
+    private Repair convertToObjectDto(Object o) {
+        Repair dto = new Repair();
         //conversion here
         return dto;
     }
@@ -102,8 +96,8 @@ public class RemontServiceImpl implements RemontService {
     }
 
     @Override
-    public RemontEntity convertToRemontEntity(Remont remont) {
-        return modelMapper.map(remont, RemontEntity.class);
+    public RepairEntity convertToRemontEntity(Repair remont) {
+        return modelMapper.map(remont, RepairEntity.class);
     }
 
 

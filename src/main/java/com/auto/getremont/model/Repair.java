@@ -2,29 +2,30 @@ package com.auto.getremont.model;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 @Data
 public class Repair {
 
     //private Long id;
-
+    @Column(name = "malfunction")
     private String malfunction;
-
+    @Column(name = "car_brand")
     private String car_brand;
-
+    @Column(name = "car_model")
     private String car_model;
-
+    @Column(name = "car_year")
     private int car_year;
-
+    @Column(name = "price")
     private String price;
-
+    @Column(name = "price")
     private String image;
-
+    @Column(name = "created")
     private Date created;
-
+    @Column(name = "name")
     private String name;
-
+    @Column(name = "user_id")
     private Long user_id;
 
     public String getMalfunction() {

@@ -9,20 +9,12 @@ import java.util.Set;
 
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
-    @Column(name = "name")
-    @NotBlank
     private String name;
-    @Column(name = "login")
-    @NotBlank
     private String login;
-    @Column(name = "pswd")
-    @NotBlank
     private char[] pswd;
-    @Column(name = "image")
-    @NotBlank
+
     private String image;
 
     public String getImage() {
